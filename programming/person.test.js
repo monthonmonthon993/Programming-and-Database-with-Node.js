@@ -119,3 +119,74 @@ it('test if A <==> B and B <==> C, C will be a friend of friends of A', () => {
     expect(Y.friendsOfFriends).toEqual([]);
     expect(Z.friendsOfFriends).toContain('X');
 });
+
+it('test friends of friends more complicated', () => {
+    A = new Person();
+    B = new Person();
+    C = new Person();
+    A.name = "A";
+    B.name = "B";
+    C.name = "C";
+
+    X = new Person();
+    Y = new Person();
+    Z = new Person();
+    X.name = "X";
+    Y.name = "Y";
+    Z.name = "Z";
+
+    A.addFriend(B);
+    A.addFriend(C); //now A, B and C are friends.
+
+    X.addFriend(Y);
+    X.addFriend(Z); //now X, Y and Z are friends.
+
+    A.addFriend(X); //now A <==> X then B,C and Y,Z are friends of friends of X and A
+
+    expect(A.friendsOfFriends).toHaveLength(2); // Y, Z
+    expect(A.friendsOfFriends).toContain('Y');  // A <==> X <==> Y
+    expect(A.friendsOfFriends).toContain('Z');  // A <==> X <==> Z
+
+    expect(B.friendsOfFriends).toHaveLength(2); // C,X
+    expect(B.friendsOfFriends).toContain('C');  // B <==> A <==> C
+    expect(B.friendsOfFriends).toContain('X');  // B <==> A <==> X
+
+    expect(C.friendsOfFriends).toHaveLength(2); // B,X
+    expect(C.friendsOfFriends).toContain('B');  // C <==> A <==> B
+    expect(C.friendsOfFriends).toContain('X');  // C <==> A <==> X
+
+    expect(X.friendsOfFriends).toHaveLength(2); // B,C
+    expect(X.friendsOfFriends).toContain('B');  // X <==> A <==> B
+    expect(X.friendsOfFriends).toContain('C');  // X <==> A <==> C
+
+    expect(Y.friendsOfFriends).toHaveLength(2); // A, Z
+    expect(Y.friendsOfFriends).toContain('A');  // Y <==> X <==> A
+    expect(Y.friendsOfFriends).toContain('Z');  // Y <==> X <==> Z
+
+    expect(Z.friendsOfFriends).toHaveLength(2); // A, Y
+    expect(Z.friendsOfFriends).toContain('A');  // Z <==> X <==> A
+    expect(Z.friendsOfFriends).toContain('Y');  // Z <==> X <==> Y
+
+    M = new Person();
+    M.name = "M";
+    M.addFriend(A);
+
+    expect(A.friendsOfFriends).toHaveLength(2); // Y, Z
+
+    expect(B.friendsOfFriends).toHaveLength(3); // C, X, M
+    expect(B.friendsOfFriends).toContain('M');  // B <==> A <==> M
+
+    expect(C.friendsOfFriends).toHaveLength(3); // B, X, M
+    expect(C.friendsOfFriends).toContain('M');  // C <==> A <==> M
+
+    expect(X.friendsOfFriends).toHaveLength(3); // B, C, M
+    expect(X.friendsOfFriends).toContain('M');  // X <==> A <==> M
+
+    expect(Y.friendsOfFriends).toHaveLength(2); // A, Z
+    expect(Y.friendsOfFriends).toContain('A');  // Y <==> X <==> A
+    expect(Y.friendsOfFriends).toContain('Z');  // Y <==> X <==> Z
+
+    expect(Z.friendsOfFriends).toHaveLength(2); // A, Y
+    expect(Z.friendsOfFriends).toContain('A');  // Z <==> X <==> A
+    expect(Z.friendsOfFriends).toContain('Y');  // Z <==> X <==> Y
+})
