@@ -4,7 +4,15 @@ module.exports = class Person {
     }
 
     get friendsOfFriends() {
-        return [];
+        let friendsOfFriends = [];
+        this.friends.forEach((myFriend) => {
+            myFriend.friends.forEach((fof) => {
+                if (fof.name !== this.name) {
+                    friendsOfFriends.push(fof.name);
+                }
+            });
+        });
+        return friendsOfFriends;
     }
 
     set name(name) {

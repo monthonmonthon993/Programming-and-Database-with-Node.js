@@ -101,3 +101,21 @@ it('test if A is a friend of B, B will be a friend of A too.', () => {
     expect(A.friends).toEqual([B]);
     expect(B.friends).toEqual([A]);
 });
+
+// A <==> B ,it mean Both of A and B are friend
+it('test if A <==> B and B <==> C, C will be a friend of friends of A', () => {
+    X = new Person();
+    Y = new Person();
+    Z = new Person();
+
+    X.name = "X";
+    Y.name = "Y";
+    Z.name = "Z";
+
+    X.addFriend(Y);
+    Y.addFriend(Z);
+    // X <==> Y <==> Z
+    expect(X.friendsOfFriends).toContain('Z');
+    expect(Y.friendsOfFriends).toEqual([]);
+    expect(Z.friendsOfFriends).toContain('X');
+});
