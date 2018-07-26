@@ -1,5 +1,12 @@
 {
-    "scripts": {
-      "test": "jest"
-    }
-}  
+  "name": "friends-of-friends",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^23.4.1"
+  }
+}
