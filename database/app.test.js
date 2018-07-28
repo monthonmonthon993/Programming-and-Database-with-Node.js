@@ -115,3 +115,15 @@ test('test purchaseItems function with several item, it should return several co
   await expect(codes2).not.toBeUndefined()
   await expect(codes2.length).toBe(2)
 })
+
+test('test setPromotion function', async () => {
+  const item = await Item.findById(4)
+  await expect(item.price).toBe(10000)
+  await expect(item.dateRelease).toEqual(Date('July 20, 2018'))
+  await expect(item.dateEnd).toEqual(Date('November 26, 2019'))
+
+  const itemSaled = await app.setPromotion(item, 50, new Date('July 25, 2018'), new Date('October 10, 2018'))
+  await expect(itemSaled.price).toBe(5000)
+  await expect(item.dateRelease).toEqual(Date('July 25, 2018'))
+  await expect(item.dateEnd).toEqual(Date('October 10, 2018'))
+})
