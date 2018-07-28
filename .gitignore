@@ -1,2 +1,8 @@
 # Dependency directories
-programming/node_modules
+node_modules
+
+# Coverage directory
+coverage
+
+# Database
+*.sqlite
