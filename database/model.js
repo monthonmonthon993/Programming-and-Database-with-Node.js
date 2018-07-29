@@ -51,9 +51,7 @@ Item.prototype.setBuyOneGetOneFreePromotion = async (item1, item2) => {
     dateRelease: item1.dateRelease,
     dateEnd: item1.dateEnd
   })
-  const bundleItem = [item1, freeItem2]
-  bundleItem.forEach((item) => console.log(item.name + ' ' + item.price))
-  return bundleItem
+  return [item1, freeItem2]
 }
 
 module.exports.connection = connection
