@@ -16,11 +16,6 @@ const Item = connection.define('item', {
     autoIncrement: true,
     unique: true
   },
-  code: {
-    type: Sequelize.STRING,
-    allowNull: true,
-    unique: true
-  },
   name: {
     type: Sequelize.STRING,
     allowNull: false
@@ -37,19 +32,28 @@ const Item = connection.define('item', {
   dateEnd: {
     type: Sequelize.DATE
   }
-}, {
-  hooks: {
-    beforeCreate: () => {
-
-    },
-    afterCreate: () => {
-
-    }
-  }
 })
 
 Item.prototype.generateCode = () => {
   return genereateHash.generateHash({length: 10})
+}
+
+Item.prototype.setSalePromotion = (item, salePercent, dateStart, dateEnd) => {
+  const price = item.price * salePercent / 100
+  item.update({ price: price, dateRelease: dateStart, dateEnd: dateEnd })
+  return item
+}
+Item.prototype.setBuyOneGetOneFreePromotion = async (item1, item2) => {
+  const freeItem2 = await Item.build({
+    name: item2.name,
+    detail: item2.detail,
+    price: 0,
+    dateRelease: item1.dateRelease,
+    dateEnd: item1.dateEnd
+  })
+  const bundleItem = [item1, freeItem2]
+  bundleItem.forEach((item) => console.log(item.name + ' ' + item.price))
+  return bundleItem
 }
 
 module.exports.connection = connection
